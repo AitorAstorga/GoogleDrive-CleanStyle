@@ -73,6 +73,13 @@ You have no idea how much I hate it when Google decides to change their GUI. It 
 
 Special thanks to [Othneil Drew](https://github.com/othneildrew) for the fantastic template, check it out as it is really cool! (and really overkill for this small script) :stuck_out_tongue_closed_eyes: [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
+The script does the following:
+<ul>
+<li>First, it checks if it's on the Google Drive webpage and if the class .gudAKb exists. If so, it sets the margin of the file cards in the grid view to 1 pixel.</li>
+<li>Then, it modifies the background colors of certain elements to create a cleaner look. It replaces the default background color with a white background for some elements like the search bar and buttons.</li>
+<li>Finally, the script logs a message in the console to confirm that the changes were successfully made.</li>
+</ul>
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 

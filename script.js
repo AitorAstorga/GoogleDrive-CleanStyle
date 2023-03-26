@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Drive - Clean Style
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      2.0.0
 // @description  Reduce card margin: Set the margin of the cards in the grid view of the files to 1px. Modify background colours: Less blue, cleaner white background.
 // @author       Aitor Astorga Saez de Vicuña
 // @match        https://drive.google.com/drive/*
@@ -11,30 +11,40 @@
 
 (function() {
     'use strict';
-    var colorSurface1 = "#ffffff"; //f7f7f7
-    var colorSurface2 = "#f7f7f7";
 
-    setInterval(function() {
-        // Check if current page is on drive.google.com and .gudAKb class exists
-        if (window.location.hostname === 'drive.google.com' && document.querySelector('.gudAKb')) {
-            var elements = document.querySelectorAll('.s55KNe .gudAKb');
-            for (var i = 0; i < elements.length; i++) {
-              elements[i].style.setProperty('margin', '1px', 'important');
+    // Function to modify the styles of the specified elements
+    function changeStyles(elements, styleProperties) {
+        for (const element of elements) {
+            for (const property in styleProperties) {
+                element.style[property] = styleProperties[property];
             }
-
-            // Replace styles
-            var css = '.vhoiae.KkxPLb {--dt-surface1: ' + colorSurface1 + ' !important; --dt-surface2: ' + colorSurface2 + '  !important;}';
-            var style = document.createElement('style');
-            style.appendChild(document.createTextNode(css));
-            document.head.appendChild(style);
-
-            // Modify background color of search bar and buttons
-            var searchStyle = document.createElement('style');
-            searchStyle.appendChild(document.createTextNode('#gb form[role="search"]:not(:focus-within), #gb .a-WErN3d-OEtP0:not(:focus-within) { background: var(--dt-surface3,#fff) !important;}'));
-            document.head.appendChild(searchStyle);
-
-            // Log a message to the console to confirm that the code has executed
-            console.log('Margin updated successfully');
         }
-    }, 500);
+    }
+
+    // Function to apply custom styles when the page content is loaded
+    function applyCustomStyles() {
+        const elementsGudAKb = document.getElementsByClassName('gudAKb');
+        const elementsS55KNe = document.getElementsByClassName('s55KNe');
+        const elementsVhoiaeKkxPLb = document.getElementsByClassName('vhoiae.KkxPLb');
+
+        const customStylesMargin = {
+            'margin': '1px'
+        };
+
+        const customStylesBackground = {
+            '--dt-surface1': '#ffffff',
+            '--dt-surface2': '#f7f7f7'
+        };
+
+        changeStyles(elementsGudAKb, customStylesMargin);
+        changeStyles(elementsS55KNe, customStylesMargin);
+        changeStyles(elementsVhoiaeKkxPLb, customStylesBackground);
+    }
+
+    // Apply custom styles when the page is loaded or updated
+    const observer = new MutationObserver(applyCustomStyles);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Apply custom styles immediately for the elements already present in the DOM
+    applyCustomStyles();
 })();
